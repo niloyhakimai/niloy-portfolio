@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "preinstall": "npm install --legacy-peer-deps"
+    "lint": "eslint"
+  
   },
   "dependencies": {
     "clsx": "^2.1.1",
