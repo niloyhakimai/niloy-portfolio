@@ -18,7 +18,9 @@
     --foreground: #ededed;
   }
 }
-
+html {
+  scroll-behavior: smooth; /* এটা থাকলেই ক্লিক করলে স্মুথলি নামবে */
+}
 body {
   background: var(--background);
   color: var(--foreground);
