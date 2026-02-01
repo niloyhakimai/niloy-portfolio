@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { CheckCircle2, ArrowRight, Github, Linkedin, Twitter, Mail } from "lucide-react";
 import { FloatingParticles } from "@/components/ui/FloatingParticles";
@@ -11,18 +11,31 @@ const FiverrIcon = ({ className }: { className?: string }) => (
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
+  
+  // State 1: Ring Color Logic
+  const [colorIndex, setColorIndex] = useState(0);
 
-  // --- 1. SUPER SMOOTH PHYSICS BASED MOTION ---
+  // State 2: Interaction Logic (Hover/Touch/Drag) -> Controls Image Grayscale
+  const [isInteracting, setIsInteracting] = useState(false);
+
+  const gradients = [
+    "from-blue-500 via-purple-500 to-emerald-500",
+    "from-orange-500 via-red-500 to-yellow-500",
+    "from-pink-500 via-rose-500 to-indigo-500",
+    "from-cyan-400 via-blue-500 to-teal-400"
+  ];
+
+  const handleCircleTap = () => {
+    setColorIndex((prev) => (prev + 1) % gradients.length);
+  };
+
+  // --- MOTION LOGIC ---
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // Spring 
-  // stiffness: 
-  // damping: 
   const mouseXSpring = useSpring(x, { stiffness: 100, damping: 30 });
   const mouseYSpring = useSpring(y, { stiffness: 100, damping: 30 });
 
-  // Mouse Move Logic
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
@@ -43,18 +56,15 @@ export function Hero() {
     y.set(0);
   };
 
-  // --- 2. 3D TRANSFORMS ---
-  // Text Tilt (বিপরীত দিকে ঘুরবে)
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+  // --- 3D TRANSFORMS ---
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["20deg", "-20deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-20deg", "20deg"]);
   
-  // Image Tilt (একটু বেশি ঘুরবে)
-  const imgRotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
-  const imgRotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
+  const imgRotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["30deg", "-30deg"]);
+  const imgRotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-30deg", "30deg"]);
 
-  // Background Parallax (উল্টো দিকে মুভ করবে)
-  const bgX = useTransform(mouseXSpring, [-0.5, 0.5], ["-30px", "30px"]);
-  const bgY = useTransform(mouseYSpring, [-0.5, 0.5], ["-30px", "30px"]);
+  const bgX = useTransform(mouseXSpring, [-0.5, 0.5], ["-40px", "40px"]);
+  const bgY = useTransform(mouseYSpring, [-0.5, 0.5], ["-40px", "40px"]);
 
 
   return (
@@ -63,22 +73,23 @@ export function Hero() {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className="min-h-[90vh] w-full rounded-md flex items-center justify-center bg-black/[0.96] antialiased relative overflow-hidden perspective-1000"
-      style={{ perspective: "1000px" }} // 3D গভীরতার জন্য জরুরি
+      style={{ perspective: "1200px" }}
     >
       
       {/* --- BACKGROUND LAYERS --- */}
-      
-      {/* Grid Pattern with Parallax */}
       <motion.div 
         style={{ x: bgX, y: bgY }}
         className="absolute inset-0 bg-grid-white/[0.02] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_90%_90%_at_50%_50%,#000_60%,transparent_100%)] pointer-events-none" 
       />
       
-      {/* Floating Particles */}
-      <FloatingParticles />
+      <div className="absolute inset-0 z-0">
+          <FloatingParticles />
+      </div>
 
-      {/* Glow Blobs */}
-      <div className="absolute top-20 left-0 w-[500px] h-[500px] bg-purple-500/10 blur-[120px] rounded-full pointer-events-none" />
+      <motion.div 
+        animate={{ backgroundColor: colorIndex === 1 ? "rgba(239, 68, 68, 0.1)" : "rgba(168, 85, 247, 0.1)" }}
+        className="absolute top-20 left-0 w-[500px] h-[500px] blur-[120px] rounded-full pointer-events-none transition-colors duration-700" 
+      />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-500/10 blur-[120px] rounded-full pointer-events-none" />
 
 
@@ -87,10 +98,10 @@ export function Hero() {
         
         {/* LEFT SIDE: Text Content */}
         <motion.div 
-            style={{ rotateX, rotateY }} // Apply 3D Tilt here
-            className="flex-1 text-center md:text-left transform-style-3d will-change-transform"
+            style={{ rotateX, rotateY }} 
+            className="flex-1 text-center md:text-left transform-style-3d will-change-transform z-30"
         >
-            <div className="inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-sm text-emerald-400 mb-6 backdrop-blur-md translate-z-10">
+            <div className="inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-sm text-emerald-400 mb-6 backdrop-blur-md translate-z-10 cursor-default">
                 <span className="relative flex h-2 w-2 mr-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -98,18 +109,17 @@ export function Hero() {
                 Available for Projects
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-400 mb-4 leading-tight translate-z-20">
+            <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-400 mb-4 leading-tight translate-z-20 cursor-default">
               Hi, I'm Niloy. 👋 <br />
               I Build <span className="text-blue-500">Automated</span> Systems.
             </h1>
 
-            <p className="text-neutral-400 text-lg mb-8 max-w-lg mx-auto md:mx-0 translate-z-10">
+            <p className="text-neutral-400 text-lg mb-8 max-w-lg mx-auto md:mx-0 translate-z-10 cursor-default">
               I help Real Estate Agents & Startups respond to leads in seconds, not hours. 
               Expert in <strong>Next.js</strong> & <strong>n8n Automation</strong>.
             </p>
 
-            {/* BUTTONS */}
-            <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start mb-8 translate-z-20">
+            <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-start mb-8 translate-z-20 relative z-40">
                 <a href="#projects" className="px-8 py-3 rounded-full bg-white text-black font-bold hover:bg-neutral-200 transition flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
                    View Portfolio <ArrowRight size={18} />
                 </a>
@@ -119,16 +129,14 @@ export function Hero() {
                 </a>
             </div>
 
-            {/* SOCIAL ICONS */}
-            <div className="flex items-center justify-center md:justify-start gap-5 mb-8 translate-z-10">
+            <div className="flex items-center justify-center md:justify-start gap-5 mb-8 translate-z-10 relative z-40">
                <SocialIcon href="https://github.com/niloyhakimai" icon={<Github size={20} />} />
                <SocialIcon href="https://www.linkedin.com/in/niloyhakimai" icon={<Linkedin size={20} />} />
                <SocialIcon href="https://x.com/niloynakimai" icon={<Twitter size={20} />} />
                <SocialIcon href="mailto:niloyhakim.ai@gmail.com" icon={<Mail size={20} />} />
             </div>
 
-            {/* Stats */}
-            <div className="flex items-center justify-center md:justify-start gap-6 text-sm text-neutral-500 border-t border-white/10 pt-6 translate-z-10">
+            <div className="flex items-center justify-center md:justify-start gap-6 text-sm text-neutral-500 border-t border-white/10 pt-6 translate-z-10 cursor-default">
                 <div className="flex items-center gap-2">
                     <CheckCircle2 size={16} className="text-emerald-500" />
                     <span>100% Job Success</span>
@@ -142,39 +150,58 @@ export function Hero() {
 
         {/* RIGHT SIDE: Photo Container */}
         <motion.div 
-            style={{ rotateX: imgRotateX, rotateY: imgRotateY }} // Stronger Tilt for Image
-            className="flex-1 relative flex justify-center md:justify-end transform-style-3d px-4 md:px-0 will-change-transform"
+            style={{ rotateX: imgRotateX, rotateY: imgRotateY }}
+            drag 
+            dragConstraints={{ left: -100, right: 100, top: -100, bottom: 100 }} 
+            dragSnapToOrigin={true} 
+            dragElastic={0.2} 
+            whileTap={{ cursor: "grabbing", scale: 0.95 }}
+            
+            // --- INTERACTION HANDLERS (Desktop & Mobile) ---
+            onHoverStart={() => setIsInteracting(true)} // Desktop Hover Start
+            onHoverEnd={() => setIsInteracting(false)}  // Desktop Hover End
+            onTapStart={() => setIsInteracting(true)}   // Mobile Touch Start
+            onTapCancel={() => setIsInteracting(false)} // Mobile Touch Cancel
+            onTap={() => {
+                handleCircleTap(); // Change Ring Color
+                setIsInteracting(false); // Reset Grayscale
+            }}
+            onDragStart={() => setIsInteracting(true)}  // Drag Start
+            onDragEnd={() => setIsInteracting(false)}   // Drag End
+            
+            className="flex-1 relative flex justify-center md:justify-end transform-style-3d px-4 md:px-0 will-change-transform cursor-grab touch-none z-30"
         >
-            <div className="relative group cursor-pointer">
-                {/* Background Static Glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-blue-500/30 blur-[100px] rounded-full pointer-events-none transition-all duration-500 group-hover:bg-blue-500/40 group-hover:scale-110 -z-10" />
+            <div className="relative group">
+                <motion.div 
+                  animate={{ backgroundColor: colorIndex === 1 ? "rgba(239, 68, 68, 0.3)" : "rgba(59, 130, 246, 0.3)" }}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] blur-[100px] rounded-full pointer-events-none transition-colors duration-500 -z-10" 
+                />
                 
-                {/* 3D Container */}
                 <div className="relative z-10 transform-style-3d">
                     
-                    {/* Rotating Gradient Ring */}
                     <motion.div 
                         animate={{ rotate: 360 }} 
                         transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                        className="absolute inset-0 -m-[3px] rounded-full bg-gradient-to-tr from-blue-500 via-purple-500 to-emerald-500 blur-[3px] z-10 opacity-80 group-hover:opacity-100 transition-opacity"
+                        className={`absolute inset-0 -m-[3px] rounded-full bg-gradient-to-tr ${gradients[colorIndex]} blur-[3px] z-10 opacity-80 group-hover:opacity-100 transition-all duration-500`}
                     />
 
-                    {/* Main Image */}
-                    {/* translateZ ব্যবহার করা হচ্ছে যাতে মনে হয় ছবিটা ভেসে আছে */}
                     <div className="relative z-20 w-[280px] h-[280px] md:w-[380px] md:h-[380px] rounded-full p-1.5 bg-black"
-                         style={{ transform: "translateZ(20px)" }}
+                         style={{ transform: "translateZ(40px)" }} 
                     >
                         <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/10 relative">
+                            {/* FIXED LOGIC: Show color if interacting (Hover/Touch/Drag) */}
                             <img 
                                 src="/profile.png" 
                                 alt="Niloy H"
-                                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                                draggable="false"
+                                className={`w-full h-full object-cover transition-all duration-500 select-none ${
+                                    isInteracting ? 'grayscale-0' : 'grayscale'
+                                }`}
                             />
                         </div>
 
-                        {/* Fiverr Badge (Popping Out) */}
-                        <div className="absolute bottom-8 -left-4 md:right-auto md:-left-8 bg-neutral-900/90 border border-white/20 px-5 py-3 rounded-2xl flex items-center gap-3 shadow-[0_10px_30px_rgba(0,0,0,0.5)] z-30 backdrop-blur-md group-hover:scale-105 transition-transform duration-300"
-                             style={{ transform: "translateZ(60px)" }} // ব্যাজটি ছবির চেয়েও সামনে থাকবে
+                        <div className="absolute bottom-8 -left-4 md:right-auto md:-left-8 bg-neutral-900/90 border border-white/20 px-5 py-3 rounded-2xl flex items-center gap-3 shadow-[0_10px_30px_rgba(0,0,0,0.5)] z-30 backdrop-blur-md"
+                             style={{ transform: "translateZ(80px)" }}
                         >
                             <div className="relative flex h-3 w-3">
                               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -197,14 +224,13 @@ export function Hero() {
   );
 }
 
-// Social Icon
 function SocialIcon({ href, icon }: { href: string; icon: React.ReactNode }) {
     return (
         <a 
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 rounded-full border border-white/10 bg-white/5 text-neutral-400 hover:text-white hover:bg-white/20 hover:scale-110 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-300 backdrop-blur-md"
+            className="p-3 rounded-full border border-white/10 bg-white/5 text-neutral-400 hover:text-white hover:bg-white/20 hover:scale-110 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-all duration-300 backdrop-blur-md relative z-50 cursor-pointer"
         >
             {icon}
         </a>
