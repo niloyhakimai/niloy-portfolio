@@ -4,46 +4,130 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Sparkles } from "lucide-react";
 
-// --- FACES (SVG Components) ---
+// --- PREMIUM ROBOT AVATARS (SVG) ---
 const FaceNormal = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="w-full h-full overflow-visible">
-    <circle cx="50" cy="50" r="45" fill="#3B82F6" className="animate-pulse-slow"/>
-    <rect x="30" y="35" width="40" height="30" rx="5" fill="white"/>
-    <circle cx="40" cy="45" r="5" fill="#1E40AF"/>
-    <circle cx="60" cy="45" r="5" fill="#1E40AF"/>
-    <path d="M 40 55 Q 50 65 60 55" stroke="#1E40AF" strokeWidth="3" fill="none" strokeLinecap="round"/>
-    <rect x="45" y="25" width="10" height="10" fill="#60A5FA"/>
-    <circle cx="50" cy="25" r="3" fill="#EF4444"/>
+    <defs>
+      <linearGradient id="robotGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#4F46E5" />
+        <stop offset="100%" stopColor="#2563EB" />
+      </linearGradient>
+      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+        <feMerge>
+          <feMergeNode in="coloredBlur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    {/* Head */}
+    <rect x="20" y="20" width="60" height="50" rx="12" fill="url(#robotGrad)" stroke="#1E3A8A" strokeWidth="2" filter="url(#glow)" />
+    {/* Ears */}
+    <rect x="12" y="35" width="8" height="20" rx="2" fill="#3B82F6" />
+    <rect x="80" y="35" width="8" height="20" rx="2" fill="#3B82F6" />
+    {/* Screen/Face Area */}
+    <rect x="28" y="30" width="44" height="30" rx="6" fill="#0f172a" stroke="#1e293b" strokeWidth="1" />
+    {/* Eyes */}
+    <circle cx="40" cy="42" r="5" fill="#00E5FF" className="animate-pulse" />
+    <circle cx="60" cy="42" r="5" fill="#00E5FF" className="animate-pulse" />
+    {/* Mouth */}
+    <path d="M 40 52 Q 50 58 60 52" stroke="#00E5FF" strokeWidth="2" fill="none" strokeLinecap="round" />
+    {/* Antenna */}
+    <line x1="50" y1="20" x2="50" y2="10" stroke="#60A5FA" strokeWidth="3" />
+    <circle cx="50" cy="8" r="4" fill="#EF4444" className="animate-ping" />
   </svg>
 );
 
 const FaceThinking = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="w-full h-full overflow-visible">
-    <circle cx="50" cy="50" r="45" fill="#8B5CF6" className="animate-pulse-slow"/>
-    <rect x="30" y="35" width="40" height="30" rx="5" fill="white"/>
-    <circle cx="40" cy="40" r="5" fill="#1E40AF"/>
-    <circle cx="60" cy="40" r="5" fill="#1E40AF"/>
-    <circle cx="50" cy="60" r="3" fill="#1E40AF"/>
-    <rect x="45" y="25" width="10" height="10" fill="#A78BFA"/>
-    <path d="M 45 15 L 50 25 L 55 15" stroke="#FCD34D" strokeWidth="2" fill="none" className="animate-bounce"/>
+    <defs>
+      <linearGradient id="thinkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#7C3AED" />
+        <stop offset="100%" stopColor="#6D28D9" />
+      </linearGradient>
+    </defs>
+    <rect x="20" y="20" width="60" height="50" rx="12" fill="url(#thinkGrad)" stroke="#4C1D95" strokeWidth="2" />
+    <rect x="12" y="35" width="8" height="20" rx="2" fill="#8B5CF6" />
+    <rect x="80" y="35" width="8" height="20" rx="2" fill="#8B5CF6" />
+    <rect x="28" y="30" width="44" height="30" rx="6" fill="#0f172a" />
+    {/* Eyes looking up */}
+    <circle cx="40" cy="38" r="5" fill="#FCD34D" />
+    <circle cx="60" cy="38" r="5" fill="#FCD34D" />
+    {/* Loading Mouth */}
+    <circle cx="42" cy="52" r="2" fill="#FCD34D" className="animate-bounce" style={{ animationDelay: '0s' }} />
+    <circle cx="50" cy="52" r="2" fill="#FCD34D" className="animate-bounce" style={{ animationDelay: '0.1s' }} />
+    <circle cx="58" cy="52" r="2" fill="#FCD34D" className="animate-bounce" style={{ animationDelay: '0.2s' }} />
+    <line x1="50" y1="20" x2="50" y2="10" stroke="#A78BFA" strokeWidth="3" />
+    <circle cx="50" cy="8" r="4" fill="#FCD34D" />
   </svg>
 );
 
 const FaceError = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" className="w-full h-full overflow-visible">
-    <circle cx="50" cy="50" r="45" fill="#EF4444" className="animate-pulse-slow"/>
-    <rect x="30" y="35" width="40" height="30" rx="5" fill="white"/>
-    <line x1="35" y1="40" x2="45" y2="50" stroke="#1E40AF" strokeWidth="3" strokeLinecap="round"/>
-    <line x1="35" y1="50" x2="45" y2="40" stroke="#1E40AF" strokeWidth="3" strokeLinecap="round"/>
-    <line x1="55" y1="40" x2="65" y2="50" stroke="#1E40AF" strokeWidth="3" strokeLinecap="round"/>
-    <line x1="55" y1="50" x2="65" y2="40" stroke="#1E40AF" strokeWidth="3" strokeLinecap="round"/>
-    <path d="M 35 65 Q 42 55 50 65 Q 58 55 65 65" stroke="#1E40AF" strokeWidth="3" fill="none" strokeLinecap="round"/>
+    <defs>
+      <linearGradient id="errorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#DC2626" />
+        <stop offset="100%" stopColor="#B91C1C" />
+      </linearGradient>
+    </defs>
+    <rect x="20" y="20" width="60" height="50" rx="12" fill="url(#errorGrad)" stroke="#7F1D1D" strokeWidth="2" />
+    <rect x="12" y="35" width="8" height="20" rx="2" fill="#EF4444" />
+    <rect x="80" y="35" width="8" height="20" rx="2" fill="#EF4444" />
+    <rect x="28" y="30" width="44" height="30" rx="6" fill="#0f172a" />
+    {/* X Eyes */}
+    <path d="M 36 38 L 44 46 M 44 38 L 36 46" stroke="#EF4444" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M 56 38 L 64 46 M 64 38 L 56 46" stroke="#EF4444" strokeWidth="2.5" strokeLinecap="round" />
+    {/* Wavy Mouth */}
+    <path d="M 38 54 Q 45 48 50 54 Q 55 60 62 54" stroke="#EF4444" strokeWidth="2" fill="none" />
+    <line x1="50" y1="20" x2="50" y2="10" stroke="#F87171" strokeWidth="3" />
+    <circle cx="50" cy="8" r="4" fill="#FCA5A5" />
   </svg>
 );
 
-// --- Typing Effect ---
+// --- THEME CONFIGURATION ---
+const themes = [
+  {
+    name: "Cosmic Blue",
+    gradient: "from-blue-600 via-indigo-600 to-violet-600",
+    bg: "bg-[#0f172a]", // Slate 900
+    userBubble: "bg-blue-600",
+    botBubble: "bg-slate-800",
+    border: "border-blue-500/30",
+    shadow: "shadow-blue-500/40"
+  },
+  {
+    name: "Emerald City",
+    gradient: "from-emerald-500 via-green-500 to-teal-500",
+    bg: "bg-[#022c22]", // Emerald 950
+    userBubble: "bg-emerald-600",
+    botBubble: "bg-emerald-900",
+    border: "border-emerald-500/30",
+    shadow: "shadow-emerald-500/40"
+  },
+  {
+    name: "Cyber Punk",
+    gradient: "from-pink-500 via-rose-500 to-yellow-500",
+    bg: "bg-[#2a0a18]", // Deep Pink/Dark
+    userBubble: "bg-pink-600",
+    botBubble: "bg-[#4a0420]",
+    border: "border-pink-500/30",
+    shadow: "shadow-pink-500/40"
+  },
+  {
+    name: "Midnight Purple",
+    gradient: "from-violet-600 via-purple-600 to-fuchsia-600",
+    bg: "bg-[#1e1b4b]", // Indigo 950
+    userBubble: "bg-violet-600",
+    botBubble: "bg-[#312e81]",
+    border: "border-violet-500/30",
+    shadow: "shadow-violet-500/40"
+  }
+];
+
+// --- TYPING EFFECT COMPONENT ---
 const TypingEffect = ({ text }: { text: string }) => {
   const [displayedText, setDisplayedText] = useState("");
+  
   useEffect(() => {
     setDisplayedText("");
     let index = 0;
@@ -54,31 +138,11 @@ const TypingEffect = ({ text }: { text: string }) => {
       } else {
         clearInterval(interval);
       }
-    }, 20); // Faster typing
+    }, 15); // Faster typing speed
     return () => clearInterval(interval);
   }, [text]);
-  return <>{displayedText}</>;
-};
 
-// --- Space Background Component (Performance Optimized) ---
-const SpaceBackground = () => {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      {/* Stars Layer 1 (Small & Slow) */}
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-40 animate-slide-down"></div>
-      
-      {/* Moving Stars Effect using CSS Gradients (No heavy JS) */}
-      <motion.div 
-        animate={{ backgroundPosition: ["0% 0%", "0% 100%"] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        className="absolute inset-0 opacity-30"
-        style={{
-            backgroundImage: 'radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)), radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)), radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)), radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)), radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0))',
-            backgroundSize: '200px 200px'
-        }}
-      />
-    </div>
-  );
+  return <>{displayedText}</>;
 };
 
 type Message = { id: number; text: string; sender: "user" | "bot"; };
@@ -88,15 +152,30 @@ export function CartoonChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [botMood, setBotMood] = useState<BotMood>("normal");
+  
+  // Theme State
+  const [themeIndex, setThemeIndex] = useState(0);
+  const currentTheme = themes[themeIndex];
+
   const [messages, setMessages] = useState<Message[]>([
-    { id: 1, text: "Hi! I'm Niloy's AI. Ready to explore? 🚀", sender: "bot" }
+    { id: 1, text: "Hello! I'm Niloy's AI Assistant. How can I help you today? 🤖", sender: "bot" }
   ]);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, botMood]);
+
+  // Handle Opening/Closing with Theme Switch
+  const handleToggle = () => {
+    if (!isOpen) {
+        // Switch theme only when opening
+        setThemeIndex((prev) => (prev + 1) % themes.length);
+    }
+    setIsOpen(!isOpen);
+  };
 
   const handleSend = async () => {
     if (!inputValue.trim()) return;
@@ -121,7 +200,7 @@ export function CartoonChatbot() {
         throw new Error("API Error");
       }
     } catch (error) {
-      setMessages((prev) => [...prev, { id: Date.now() + 1, text: "Connection lost in space! 🌌 Try again.", sender: "bot" }]);
+      setMessages((prev) => [...prev, { id: Date.now() + 1, text: "Connection error. Please try again later.", sender: "bot" }]);
       setBotMood("error");
       setTimeout(() => setBotMood("normal"), 3000);
     }
@@ -146,55 +225,48 @@ export function CartoonChatbot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            initial={{ opacity: 0, y: 20, scale: 0.9, transformOrigin: "bottom right" }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            transition={{ duration: 0.3 }}
-            // Compact Size & Space Theme Colors
-            className="mb-3 w-[calc(100vw-32px)] md:w-[320px] max-h-[500px] flex flex-col bg-[#0a0a16] border border-blue-500/30 rounded-2xl shadow-[0_0_40px_rgba(0,0,0,0.6)] overflow-hidden origin-bottom-right relative"
+            transition={{ duration: 0.2 }}
+            // Mobile Optimization: Fixed excessive blurring and heavy shadows. 
+            // Using solid opaque colors for better performance on mobile GPUs.
+            className={`mb-3 w-[calc(100vw-32px)] md:w-[320px] max-h-[80vh] flex flex-col ${currentTheme.bg} ${currentTheme.border} border rounded-2xl shadow-2xl overflow-hidden relative`}
           >
-            {/* Space Background Layer */}
-            <SpaceBackground />
+            {/* Background Texture (Static CSS only) */}
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 pointer-events-none"></div>
 
             {/* Header */}
-            <div className={`p-3 flex items-center justify-between relative z-10 border-b border-white/5 transition-colors duration-500 ${
-              botMood === 'error' ? 'bg-red-900/40' : 
-              botMood === 'thinking' ? 'bg-indigo-900/40' : 
-              'bg-blue-900/20'
-            }`}>
-                <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-white/5 rounded-full p-0.5 backdrop-blur-sm border border-white/10">
+            <div className={`p-3 flex items-center justify-between relative z-10 border-b border-white/5 bg-gradient-to-r ${currentTheme.gradient}`}>
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white/10 rounded-full p-1 backdrop-blur-sm border border-white/20 shadow-inner">
                         {renderFace()}
                     </div>
                     <div>
                         <h3 className="text-white font-bold text-xs flex items-center gap-1">
-                          Niloy's AI <Sparkles size={10} className="text-cyan-400"/>
+                          Niloy's AI <Sparkles size={10} className="text-yellow-300"/>
                         </h3>
-                        <p className="text-[9px] text-cyan-200/70 uppercase tracking-wider">
-                            {botMood === 'thinking' ? 'Processing...' : 'System Online'}
+                        <p className="text-[10px] text-white/90 font-medium tracking-wide opacity-90">
+                            {botMood === 'thinking' ? 'Processing...' : 'Online'}
                         </p>
                     </div>
                 </div>
-                <button onClick={() => setIsOpen(false)} className="text-white/60 hover:text-white p-1 hover:bg-white/10 rounded-full transition">
-                    <X size={16} />
+                <button onClick={() => setIsOpen(false)} className="text-white/80 hover:text-white p-1.5 hover:bg-white/10 rounded-full transition">
+                    <X size={18} />
                 </button>
             </div>
 
             {/* Messages Area */}
-            <div className="flex-1 p-3 overflow-y-auto flex flex-col gap-2.5 relative z-10 min-h-[250px] scrollbar-thin scrollbar-thumb-blue-500/20 scrollbar-track-transparent">
+            {/* Added scrollbar-hide for cleaner mobile look */}
+            <div className="flex-1 p-3 overflow-y-auto flex flex-col gap-3 relative z-10 min-h-[250px] scrollbar-none">
                 {messages.map((msg, index) => {
                     const isLastMessage = index === messages.length - 1;
                     return (
                     <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                        {msg.sender === 'bot' && (
-                           <div className="w-5 h-5 mr-1.5 rounded-full bg-blue-500/10 p-0.5 flex-shrink-0 self-end mb-1 border border-blue-400/20">
-                             <FaceNormal />
-                           </div>
-                        )}
-                        <div className={`max-w-[85%] px-3 py-2 rounded-2xl text-xs leading-relaxed shadow-sm backdrop-blur-md ${
+                        <div className={`max-w-[85%] px-3.5 py-2.5 rounded-2xl text-sm shadow-md ${
                             msg.sender === 'user' 
-                            ? 'bg-blue-600 text-white rounded-br-sm' 
-                            : 'bg-[#1a1a2e]/80 text-gray-200 rounded-bl-sm border border-blue-500/20'
+                            ? `${currentTheme.userBubble} text-white rounded-br-none` 
+                            : `${currentTheme.botBubble} text-gray-100 rounded-bl-none border border-white/5`
                         }`}>
                             {msg.sender === 'bot' && isLastMessage ? (
                                 <TypingEffect text={msg.text} />
@@ -206,16 +278,13 @@ export function CartoonChatbot() {
                     );
                 })}
                 
-                {/* Typing Indicator */}
+                {/* Typing Indicator Bubble */}
                 {botMood === 'thinking' && (
                   <div className="flex justify-start">
-                     <div className="w-5 h-5 mr-1.5 rounded-full bg-blue-500/10 p-0.5 flex-shrink-0 self-end mb-1">
-                        <FaceThinking />
-                     </div>
-                     <div className="bg-[#1a1a2e]/80 px-3 py-2 rounded-2xl rounded-bl-sm border border-blue-500/20 flex gap-1 backdrop-blur-md items-center">
-                        <span className="w-1 h-1 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}/>
-                        <span className="w-1 h-1 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}/>
-                        <span className="w-1 h-1 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}/>
+                     <div className={`${currentTheme.botBubble} px-4 py-3 rounded-2xl rounded-bl-none border border-white/5 flex gap-1 items-center`}>
+                        <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                        <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                        <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
                      </div>
                   </div>
                 )}
@@ -223,44 +292,42 @@ export function CartoonChatbot() {
             </div>
 
             {/* Input Area */}
-            <div className="p-2.5 bg-[#0a0a16]/80 border-t border-white/5 flex gap-2 relative z-10 backdrop-blur-xl">
+            {/* Mobile Optimization: Using 'text-base' (16px) prevents iOS from auto-zooming when focusing input */}
+            <div className={`p-3 ${currentTheme.bg} border-t border-white/10 flex gap-2 relative z-10`}>
                 <input 
                     type="text"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Ask AI..."
-                    className="flex-1 bg-white/5 border border-white/10 rounded-full px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500/50 transition placeholder:text-gray-500"
+                    placeholder="Type a message..."
+                    className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-base md:text-sm text-white focus:outline-none focus:border-white/30 transition placeholder:text-gray-500"
                 />
                 <button 
                     onClick={handleSend}
-                    className={`p-2 rounded-full transition flex-shrink-0 shadow-lg ${
-                      !inputValue.trim() ? 'bg-white/5 text-gray-600' : 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:scale-105 text-white'
+                    className={`p-2.5 rounded-full transition flex-shrink-0 shadow-lg ${
+                      !inputValue.trim() ? 'bg-white/5 text-gray-500' : `bg-gradient-to-r ${currentTheme.gradient} text-white hover:scale-105`
                     }`}
                     disabled={!inputValue.trim()}
                 >
-                    <Send size={14} />
+                    <Send size={18} />
                 </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Floating Toggle Button */}
+      {/* Floating Toggle Button (Jumps & Changes Theme) */}
       <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        animate={{ y: [0, -6, 0] }} // Gentle Floating Animation
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        onClick={handleToggle}
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className={`group relative p-1 rounded-full shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-all duration-300 ${
-            botMood === 'error' ? 'bg-red-500' : 
-            'bg-gradient-to-tr from-blue-600 via-purple-600 to-cyan-500'
-        }`}
+        className={`group relative p-1 rounded-full ${currentTheme.shadow} shadow-xl transition-all duration-500 bg-gradient-to-tr ${currentTheme.gradient}`}
       >
-        <div className="bg-[#0a0a16] rounded-full p-2 w-12 h-12 flex items-center justify-center overflow-hidden border border-white/10">
+        <div className={`${currentTheme.bg} rounded-full p-2 w-14 h-14 flex items-center justify-center overflow-hidden border border-white/10`}>
            {isOpen ? (
-               <X className="text-white w-6 h-6" /> 
+               <X className="text-white w-7 h-7" /> 
            ) : (
                <div className="w-full h-full p-0.5">
                    {renderFace()}
@@ -268,9 +335,9 @@ export function CartoonChatbot() {
            )}
         </div>
         
-        {/* Status Dot */}
+        {/* Status Notification Dot */}
         {!isOpen && (
-             <span className="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-[#0a0a16] bg-emerald-500 animate-pulse"></span>
+             <span className="absolute top-0 right-0 block h-3 w-3 rounded-full ring-2 ring-[#000] bg-green-500 animate-pulse"></span>
         )}
       </motion.button>
 
