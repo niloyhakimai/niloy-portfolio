@@ -15,14 +15,16 @@ A modern, high-performance personal portfolio website built with the latest web 
 - **Framework:** Built with **Next.js 15 (App Router)** & **React 19**
 - **Styling:** Styled using **Tailwind CSS v4** for a clean and responsive design
 - **Animations:** Smooth transitions and interactions using **Framer Motion** & **React Parallax Tilt**
+- **AI Integration:** Custom **Cartoon Chatbot** powered by **Groq API (Llama 3.3)**
 - **Icons:** Integrated with **Lucide React** & **React Icons**
 - **Performance:** Optimized with modular components and efficient rendering
 
 ### ✨ UI Highlights
 
-- Floating Particles background effect  
-- Spotlight and Magic Button effects  
-- Floating Navigation for better UX  
+- 🌌 **Space-Themed AI Chatbot** — Animated, floating, and interactive assistant that responds in **Bangla & English**
+- ✨ **Floating Particles** — Dynamic animated background
+- 🔦 **Spotlight & Magic Buttons** — Interactive UI effects
+- 🧩 **Floating Navigation** — Smooth user experience
 
 ---
 
@@ -31,19 +33,20 @@ A modern, high-performance personal portfolio website built with the latest web 
 ```bash
 niloy-portfolio/
 ├── src/
-│   ├── app/                # Next.js App Router (Pages & Layouts)
-│   │   ├── globals.css     # Global styles (Tailwind imports)
-│   │   ├── layout.tsx      # Root layout
-│   │   └── page.tsx        # Homepage
-│   ├── components/         # Reusable React components
-│   │   ├── layout/         # Layout components (Navbar, Footer)
-│   │   ├── sections/       # Page sections (Hero, Projects, Contact, etc.)
-│   │   └── ui/             # UI elements (FloatingNav, MagicButton, Spotlight)
-│   └── lib/                # Utility functions (utils.ts)
-├── public/                 # Static assets (images, icons)
-├── package.json            # Dependencies and scripts
-├── tailwind.config.ts      # Tailwind CSS configuration
-└── tsconfig.json           # TypeScript configuration
+│   ├── app/                     # Next.js App Router (Pages & Layouts)
+│   │   ├── api/chat/            # Backend API route for Groq AI
+│   │   ├── globals.css          # Global styles (Tailwind imports)
+│   │   ├── layout.tsx           # Root layout (Chatbot included here)
+│   │   └── page.tsx             # Homepage
+│   ├── components/              # Reusable React components
+│   │   ├── layout/              # Layout components (Navbar, Footer)
+│   │   ├── sections/            # Page sections (Hero, Projects, Contact, etc.)
+│   │   └── ui/                  # UI elements (CartoonChatbot, FloatingNav, etc.)
+│   └── lib/                     # Utility functions (utils.ts)
+├── public/                      # Static assets (images, icons)
+├── package.json                 # Dependencies and scripts
+├── tailwind.config.ts           # Tailwind CSS configuration
+└── tsconfig.json                # TypeScript configuration
 ```
 
 ---
@@ -56,6 +59,7 @@ niloy-portfolio/
 | React 19         | UI Library                                   |
 | Tailwind CSS v4  | Utility-first CSS Framework                  |
 | Framer Motion    | Animation Library                            |
+| Groq SDK         | AI Integration (Llama 3.3 Model)             |
 | Lucide React     | Icon Set                                     |
 | TypeScript       | Static Type Checking                         |
 
@@ -66,7 +70,8 @@ niloy-portfolio/
 Follow these steps to set up the project locally on your machine.
 
 ### 📌 Prerequisites
-Make sure you have **Node.js** installed on your system.
+
+Make sure you have **Node.js** installed.
 
 ### 📥 Installation
 
@@ -87,19 +92,29 @@ yarn install
 pnpm install
 ```
 
-Run the development server:
+### 🔑 Environment Variables (Required for AI Chatbot)
+
+Create a file named `.env.local` in the root directory and add:
+
+```env
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+You can get a free API key from: https://console.groq.com
+
+### ▶️ Run the Development Server
 
 ```bash
 npm run dev
 ```
 
-Now open **http://localhost:3000** in your browser.
+Open **http://localhost:3000** in your browser.
 
 ---
 
 ## 🎨 Customization
 
-You can easily customize the portfolio content by editing files inside:
+Edit content easily from:
 
 ```
 src/components/sections/
@@ -111,13 +126,14 @@ src/components/sections/
 | Projects | `Projects.tsx` |
 | Skills / Tech Stack | `TechStack.tsx` |
 | Contact Info | `Contact.tsx` |
+| AI Personality | `src/app/api/chat/route.ts` |
 
 ---
 
 ## 🤝 Contributing
 
 Contributions are welcome!  
-If you find any issues or want to add new features, feel free to open a pull request.
+If you'd like to improve something, feel free to open a pull request.
 
 ---
 
@@ -128,5 +144,5 @@ This project is licensed under the **MIT License**.
 ---
 
 <p align="center">
-Built with ❤️ by <strong>Niloy</strong>
+Built with ❤️ by <strong>Niloy Hakim</strong>
 </p>
