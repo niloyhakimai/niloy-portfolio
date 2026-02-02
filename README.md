@@ -1,4 +1,3 @@
-
 # ⚡ Niloy's Portfolio
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js&logoColor=white)
@@ -41,49 +40,12 @@ niloy-portfolio/
 ├── package.json            # Dependencies and scripts
 ├── tailwind.config.ts      # Tailwind CSS configuration
 └── tsconfig.json           # TypeScript configuration
-
-🛠️ Tech Stack
-| Technology | Purpose | |Data | Description | | --- | --- | | Next.js 15 | React Framework for Production (App Router) | | React 19 | UI Library | | Tailwind CSS v4 | Utility-first CSS Framework | | Framer Motion | Animation Library | | Lucide React | Icon Set | | TypeScript | Static Type Checking |
-
-🏁 Getting Started
-Follow these steps to set up the project locally on your machine.
-
-Prerequisites
-Make sure you have Node.js installed on your system.
-
-Installation
-Clone the repository:
-
-Bash
-git clone [https://github.com/your-username/niloy-portfolio.git](https://github.com/your-username/niloy-portfolio.git)
+🛠️ Tech StackTechnologyPurposeNext.js 15React Framework for Production (App Router)React 19UI LibraryTailwind CSS v4Utility-first CSS FrameworkFramer MotionAnimation LibraryLucide ReactIcon SetTypeScriptStatic Type Checking🏁 Getting StartedFollow these steps to set up the project locally on your machine.PrerequisitesMake sure you have Node.js installed on your system.InstallationClone the repository:Bashgit clone [https://github.com/niloyhakimai/niloy-portfolio.git](https://github.com/niloyhakimai/niloy-portfolio.git)
 cd niloy-portfolio
-Install dependencies:
-
-Bash
-npm install
+Install dependencies:Bashnpm install
 # or
 yarn install
 # or
 pnpm install
-Run the development server:
-
-Bash
-npm run dev
-Open http://localhost:3000 with your browser to see the result.
-
-🎨 Customization
-You can easily customize the portfolio content by editing the components inside src/components/sections/:
-
-Hero Section: Edit src/components/sections/Hero.tsx
-
-Projects: Update project data in src/components/sections/Projects.tsx
-
-Skills: Modify src/components/sections/TechStack.tsx
-
-Contact: Update email/social links in src/components/sections/Contact.tsx
-
-🤝 Contributing
-Contributions are welcome! If you find any issues or want to add new features, feel free to open a pull request.
-
-📄 License
-This project is licensed under the MIT License.
+Run the development server:Bashnpm run dev
+Open http://localhost:3000 with your browser to see the result.🎨 CustomizationYou can easily customize the portfolio content by editing the components inside src/components/sections/:Hero Section: Edit src/components/sections/Hero.tsxProjects: Update project data in src/components/sections/Projects.tsxSkills: Modify src/components/sections/TechStack.tsxContact: Update email/social links in src/components/sections/Contact.tsx🤝 ContributingContributions are welcome! If you find any issues or want to add new features, feel free to open a pull request.📄 LicenseThis project is licensed under the MIT License.<p align="center">Built with ❤️ by <strong>Niloy</strong></p>
