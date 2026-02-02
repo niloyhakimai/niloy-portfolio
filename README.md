@@ -8,21 +8,25 @@
 
 A modern, high-performance personal portfolio website built with the latest web technologies. Designed to showcase projects, skills, and services with fluid animations and a responsive UI.
 
+---
+
 ## 🚀 Features
 
-- **Framework:** Built with **Next.js 15** (App Router) & **React 19**.
-- **Styling:** Styled using **Tailwind CSS v4** for a clean and responsive design.
-- **Animations:** Smooth transitions and interactions using **Framer Motion** & **React Parallax Tilt**.
-- **Icons:** Integrated with **Lucide React** & **React Icons**.
-- **Performance:** Optimized with modular components and efficient rendering.
-- **UI Components:**
-  - ✨ **Floating Particles** background effect.
-  - 🔦 **Spotlight** and **Magic Button** effects.
-  - 🧩 **Floating Navigation** for better UX.
+- **Framework:** Built with **Next.js 15 (App Router)** & **React 19**
+- **Styling:** Styled using **Tailwind CSS v4** for a clean and responsive design
+- **Animations:** Smooth transitions and interactions using **Framer Motion** & **React Parallax Tilt**
+- **Icons:** Integrated with **Lucide React** & **React Icons**
+- **Performance:** Optimized with modular components and efficient rendering
+
+### ✨ UI Highlights
+
+- Floating Particles background effect  
+- Spotlight and Magic Button effects  
+- Floating Navigation for better UX  
+
+---
 
 ## 📂 Project Structure
-
-Here is an overview of the project's file structure:
 
 ```bash
 niloy-portfolio/
@@ -40,12 +44,89 @@ niloy-portfolio/
 ├── package.json            # Dependencies and scripts
 ├── tailwind.config.ts      # Tailwind CSS configuration
 └── tsconfig.json           # TypeScript configuration
-🛠️ Tech StackTechnologyPurposeNext.js 15React Framework for Production (App Router)React 19UI LibraryTailwind CSS v4Utility-first CSS FrameworkFramer MotionAnimation LibraryLucide ReactIcon SetTypeScriptStatic Type Checking🏁 Getting StartedFollow these steps to set up the project locally on your machine.PrerequisitesMake sure you have Node.js installed on your system.InstallationClone the repository:Bashgit clone [https://github.com/niloyhakimai/niloy-portfolio.git](https://github.com/niloyhakimai/niloy-portfolio.git)
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology        | Purpose                                      |
+|------------------|----------------------------------------------|
+| Next.js 15       | React Framework for Production (App Router)  |
+| React 19         | UI Library                                   |
+| Tailwind CSS v4  | Utility-first CSS Framework                  |
+| Framer Motion    | Animation Library                            |
+| Lucide React     | Icon Set                                     |
+| TypeScript       | Static Type Checking                         |
+
+---
+
+## 🏁 Getting Started
+
+Follow these steps to set up the project locally on your machine.
+
+### 📌 Prerequisites
+Make sure you have **Node.js** installed on your system.
+
+### 📥 Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/niloyhakimai/niloy-portfolio.git
 cd niloy-portfolio
-Install dependencies:Bashnpm install
+```
+
+Install dependencies:
+
+```bash
+npm install
 # or
 yarn install
 # or
 pnpm install
-Run the development server:Bashnpm run dev
-Open http://localhost:3000 with your browser to see the result.🎨 CustomizationYou can easily customize the portfolio content by editing the components inside src/components/sections/:Hero Section: Edit src/components/sections/Hero.tsxProjects: Update project data in src/components/sections/Projects.tsxSkills: Modify src/components/sections/TechStack.tsxContact: Update email/social links in src/components/sections/Contact.tsx🤝 ContributingContributions are welcome! If you find any issues or want to add new features, feel free to open a pull request.📄 LicenseThis project is licensed under the MIT License.<p align="center">Built with ❤️ by <strong>Niloy</strong></p>
+```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+Now open **http://localhost:3000** in your browser.
+
+---
+
+## 🎨 Customization
+
+You can easily customize the portfolio content by editing files inside:
+
+```
+src/components/sections/
+```
+
+| Section | File to Edit |
+|--------|--------------|
+| Hero Section | `Hero.tsx` |
+| Projects | `Projects.tsx` |
+| Skills / Tech Stack | `TechStack.tsx` |
+| Contact Info | `Contact.tsx` |
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!  
+If you find any issues or want to add new features, feel free to open a pull request.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+<p align="center">
+Built with ❤️ by <strong>Niloy</strong>
+</p>
